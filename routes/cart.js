@@ -7,7 +7,7 @@ const {
 
 const router = require("express").Router();
 //CREATE cart
-router.post("/",varifyToken,async (req,res)=>{
+router.post("/add",varifyToken,async (req,res)=>{
     const newCart = new Cart(req.body);
     try{
         const savedCart = await newCart.save();
@@ -47,7 +47,7 @@ router.delete("/delete/:id", varifyTokenAndAuthorization, async (req, res) => {
 
 
 //get
-router.get("/details/:id",varifyTokenAndAuthorization, async (req, res) => {
+router.get("/:id",varifyTokenAndAuthorization, async (req, res) => {
   try {
     const cart = await Cart.findone({userId:req.params.id});
     res.status(200).json(cart);
@@ -56,7 +56,7 @@ router.get("/details/:id",varifyTokenAndAuthorization, async (req, res) => {
   }
 });
 //getAllcart
-router.get("/all",varifyTokenAndAdmin,async (req,res)=>{
+router.get("/",varifyTokenAndAdmin,async (req,res)=>{
 try{
     const carts = await Cart.find();
     res.status(200).json(carts)
