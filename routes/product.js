@@ -6,7 +6,7 @@ const {
 
 const router = require("express").Router();
 //CREATE PRODUCT
-router.post("/",varifyTokenAndAdmin,async (req,res)=>{
+router.post("/add",varifyTokenAndAdmin,async (req,res)=>{
     const newProduct = new Product(req.body);
     try{
         const savedProduct = await newProduct.save();
