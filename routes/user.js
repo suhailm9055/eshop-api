@@ -3,6 +3,7 @@ const {
   varifyTokenAndAuthorization,
   varifyTokenAndAdmin,
 } = require("./verifyToken");
+var CryptoJS = require("crypto-js");
 
 const router = require("express").Router();
 
