@@ -49,7 +49,7 @@ router.get("/userdetails/:id", varifyTokenAndAdmin, async (req, res) => {
   }
 });
 //getAllUsers
-router.get("/", varifyTokenAndAdmin, async (req, res,next) => {
+router.get("/", varifyTokenAndAdmin, async (req, res, next) => {
   const query = req.query.new;
   try {
     const users = query
@@ -81,6 +81,24 @@ router.get("/stats", varifyTokenAndAdmin, async (req, res) => {
       },
     ]);
     res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+router.post("/addUser", varifyTokenAndAuthorization, async (req, res) => {
+  if (req.body.password) {
+    req.body.password = CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SECRT
+    ).toString();
+  }
+  const newUser = new User(req.body);
+  try {
+    const addUser = await newUser.save();
+    const { password, ...other } = addUser._doc;
+    res.status(200).json(other);
   } catch (err) {
     res.status(500).json(err);
   }
