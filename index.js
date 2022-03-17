@@ -20,6 +20,8 @@ dotenv.config();
 app.get("/api/test",()=>{
     console.log("test successful");
 })
+// mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true }));
+// console.log(process.env.MONGO_URL);
 mongoose.connect(
     process.env.MONGO_URL)
     .then(()=>console.log("DB Connection successful!"))

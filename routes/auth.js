@@ -31,11 +31,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req,res)=>{
     try{
         const user =await User.findOne({username:req.body.username});
-        !user && res.status(401).json("User not found")
+        if(!user ) return (res.status(401).json("User not found"))
 
         const hashedPassword= CryptoJS.AES.decrypt(user.password,process.env.PASS_SECRT)
         const OGpassword = hashedPassword.toString(CryptoJS.enc.Utf8)
-        OGpassword !== req.body.password && res.status(401).json("Wrong Password!")
+        if(OGpassword !== req.body.password) return (  res.status(401).json("Wrong Password!"))
         
         const accessToken= jwt.sign({
             id:user.id,isAdmin:user.isAdmin,
@@ -43,7 +43,7 @@ router.post("/login", async (req,res)=>{
         process.env.JWT_KEY,{expiresIn:"3d"}
         )
         
-        const{password,...other} =user._doc;
+        const{password,...other} =user._doc; 
         res.status(200).json({...other,accessToken})
     }catch(err){
         res.status(500).json(err)
