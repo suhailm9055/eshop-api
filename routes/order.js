@@ -57,8 +57,11 @@ router.get("/details/:id",varifyTokenAndAuthorization, async (req, res) => {
 });
 //getAllcart
 router.get("/all",varifyTokenAndAdmin,async (req,res)=>{
-try{
-    const orders = await Order.find();
+  const query = req.query.new;
+  try {
+    const orders = query
+      ? await Order.find().sort({ _id: -1 }).limit(5)
+      : await Order.find();
     res.status(200).json(orders)
 }catch(err){
     res.status(500).json(err)
