@@ -2,7 +2,8 @@ const User = require("../models/User");
 
 const router = require("express").Router();
 
-require('dotenv').config();
+const dotenv = require("dotenv");
+dotenv.config();
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken")
 const accountSid="ACa2ed5db7008d57d616de72fa92439d65";
