@@ -5,9 +5,9 @@ const router = require("express").Router();
 require('dotenv').config();
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken")
-const accountSid=process.env.Asid;
+const accountSid="ACa2ed5db7008d57d616de72fa92439d65";
 const authToken=process.env.AuthToken;
-const client = require('twilio')(process.env.Asid,process.env.AuthToken);
+const client = require('twilio')(accountSid,authToken);
 //register
 
 router.post("/register", async (req, res) => { 
