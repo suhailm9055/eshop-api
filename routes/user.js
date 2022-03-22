@@ -8,7 +8,7 @@ var CryptoJS = require("crypto-js");
 const router = require("express").Router();
 
 //update
-router.put("/update/:id", varifyTokenAndAuthorization, async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(
       req.body.password,
@@ -40,7 +40,7 @@ router.delete("/delete/:id", varifyTokenAndAdmin, async (req, res) => {
   }
 });
 //get
-router.get("/userdetails/:id", varifyTokenAndAdmin, async (req, res) => {
+router.get("/userdetails/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
@@ -49,7 +49,7 @@ router.get("/userdetails/:id", varifyTokenAndAdmin, async (req, res) => {
   }
 });
 //getAllUsers
-router.get("/", varifyTokenAndAdmin, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   const query = req.query.new;
   try {
     const users = query

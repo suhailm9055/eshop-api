@@ -7,10 +7,11 @@ const userSchema = new mongoose.Schema({
   isAdmin:{
       type:Boolean,default:false,
   },
-  firstname:{type:String},
-  Lastname:{type:String},
+  firstName:{type:String},
+  lastName:{type:String},
   img:{type:String},
-  googleId:{type:String}
+  googleId:{type:String},
+  address:{type:String},
 },{timestamps:true});
 
 module.exports = mongoose.model('User',userSchema)
