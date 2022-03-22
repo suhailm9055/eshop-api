@@ -2,12 +2,12 @@ const User = require("../models/User");
 
 const router = require("express").Router();
 
-const CryptoJS = require("crypto-js");
 require('dotenv').config();
+const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken")
 const accountSid=process.env.Asid;
 const authToken=process.env.AuthToken;
-const client = require('twilio')(accountSid, authToken);
+const client = require('twilio')(process.env.Asid,process.env.AuthToken);
 //register
 
 router.post("/register", async (req, res) => { 
