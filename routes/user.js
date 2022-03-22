@@ -60,6 +60,21 @@ router.get("/", varifyTokenAndAdmin, async (req, res, next) => {
     res.status(500).json(err);
   }
 });
+//SearchUsersByEmail
+router.post("/email", async (req, res, next) => {
+  try {
+    const users =  await User.find(req.body);
+    if(users.length !== 0){
+
+      res?.status(200).json(users);
+    }else{
+      res?.status(202).json(null);
+
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 //get user stats
 router.get("/stats", varifyTokenAndAdmin, async (req, res) => {
@@ -87,7 +102,7 @@ router.get("/stats", varifyTokenAndAdmin, async (req, res) => {
 });
 
 
-router.post("/addUser", varifyTokenAndAuthorization, async (req, res) => {
+router.post("/addUser", async (req, res) => {
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(
       req.body.password,

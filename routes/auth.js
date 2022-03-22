@@ -3,28 +3,33 @@ const User = require("../models/User");
 const router = require("express").Router();
 
 const CryptoJS = require("crypto-js");
-
+require('dotenv').config();
 const jwt = require("jsonwebtoken")
-
+const accountSid=process.env.Asid;
+const authToken=process.env.AuthToken;
+const client = require('twilio')(accountSid, authToken);
 //register
 
-router.post("/register", async (req, res) => {
-  const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: CryptoJS.AES.encrypt(
+router.post("/register", async (req, res) => { 
+
+  if (req.body.password) {
+    req.body.password = CryptoJS.AES.encrypt(
       req.body.password,
       process.env.PASS_SECRT
-    ).toString(),
-  });
+    ).toString();
+  }
+  const newUser = new User(req.body);
+  
 
   try {
-    const savedUser = await newUser.save();
+    const savedUser = await newUser.save(); 
+    console.log(savedUser)
     res.status(201).json(savedUser);
   } catch (err) {
     res.status(500).json(err);
+    console.log(err)
   }
-});
+}); 
 
 //login
 
@@ -35,6 +40,7 @@ router.post("/login", async (req,res)=>{
 
         const hashedPassword= CryptoJS.AES.decrypt(user.password,process.env.PASS_SECRT)
         const OGpassword = hashedPassword.toString(CryptoJS.enc.Utf8)
+        
         if(OGpassword !== req.body.password) return (  res.status(401).json("Wrong Password!"))
         
         const accessToken= jwt.sign({
@@ -49,5 +55,53 @@ router.post("/login", async (req,res)=>{
         res.status(500).json(err)
     } 
 })
+ 
+// OTP LOGIN 
 
-module.exports = router;
+router.post("/login/mobile",async (req,res)=>{
+  const number = req.body.mobile;
+  const Ssid=process.env.Ssid;
+
+  console.log(number);
+  console.log(Ssid);
+  
+try{
+
+  client.verify.services(Ssid).verifications.create({
+    to:`+91${number}`,
+    channel:"sms"
+  }).then((response)=>{
+    res.status(200).json(response)
+    console.log(response);
+  })
+}catch(err){
+  console.log(err);
+
+  res.status(500).json("mobile error") 
+}
+
+
+
+})
+router.post("/login/otp",async (req,res)=>{
+  const number = req.body.mobile;
+  const otp = req.body.otp;
+  const Ssid=process.env.Ssid; 
+
+  
+
+if(otp){
+  client.verify.services(Ssid).verificationChecks.create({to: `+91${number}`, code: `${otp}`})
+  .then((response)=>{ 
+    res.status(200).json(response)
+    console.log("otp",response);
+
+  })
+}else{ 
+  res.status(500).json("otp error")
+
+}
+ 
+})
+
+module.exports = router; 
