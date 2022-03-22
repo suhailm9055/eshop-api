@@ -7,7 +7,7 @@ dotenv.config();
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken")
 const accountSid="ACa2ed5db7008d57d616de72fa92439d65";
-const authToken=process.env.AuthToken;
+const authToken="7b9208e7a3e3f1dc709b2c6ada5b6188";
 const client = require('twilio')(accountSid,authToken);
 //register
 
