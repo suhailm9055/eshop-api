@@ -3,7 +3,7 @@ const userSchema = new mongoose.Schema({
   username:{type:String,unique:true},
   email:{type:String,unique:true},
   password:{type:String,},
-  mobile:{type:Number},
+  mobile:{type:String},
   isAdmin:{
       type:Boolean,default:false,
   },
