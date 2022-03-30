@@ -73,7 +73,7 @@ try{
     channel:"sms"
   }).then((response)=>{
     res.status(200).json(response)
-    console.log(response);
+    // console.log(response);
   })
 }catch(err){
   console.log(err);
