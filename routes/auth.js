@@ -6,12 +6,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const cors = require("cors");
-const corsOpts = {
-  origin: '*',
-  credentials: true,
-  methods: ['GET','POST','HEAD','PUT','PATCH','DELETE']
-};
-app.use(cors(corsOpts));
+
+app.use(cors());
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken")
 const accountSid="ACa2ed5db7008d57d616de72fa92439d65";

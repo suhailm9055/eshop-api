@@ -30,12 +30,12 @@ mongoose.connect(
       console.log(err);
   })
  
-  const corsOpts = {
-    origin: '*',
-    credentials: true,
-    methods: ['GET','POST','HEAD','PUT','PATCH','DELETE']
-};
-app.use(cors(corsOpts));
+//   const corsOpts = {
+//     origin: '*',
+//     credentials: true,
+//     methods: ['GET','POST','HEAD','PUT','PATCH','DELETE']
+// };
+app.use(cors());
 
 app.use(express.json())
 app.use("/api/users", userRoute)
