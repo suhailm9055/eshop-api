@@ -35,7 +35,10 @@ mongoose.connect(
 //     credentials: true,
 //     methods: ['GET','POST','HEAD','PUT','PATCH','DELETE']
 // };
-app.use(cors());
+// app.use(cors());
+app.options("*", cors({ origin: 'https://super-twilight-2417b6.netlify.app', optionsSuccessStatus: 200 }));
+
+app.use(cors({ origin: "https://super-twilight-2417b6.netlify.app", optionsSuccessStatus: 200 }));
 
 app.use(express.json())
 app.use("/api/users", userRoute)
